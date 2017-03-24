@@ -2,7 +2,10 @@ package dao;
 
 import model.Employee;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -12,29 +15,26 @@ import java.util.List;
  */
 public class JDBCUtils {
 
-    private static Connection connection;
+    private static JDBCConnectionPool connectionPool;
 
-    private static Connection getConnection() {
-        if (connection == null) {
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                connection = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/nc_lab_2017",
-                        "root",
-                        "");
-            } catch (SQLException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+    public static JDBCConnectionPool getConnectionPool() {
+        if (connectionPool == null) {
+            connectionPool = new JDBCConnectionPool(
+                    "com.mysql.jdbc.Driver",
+                    "jdbc:mysql://localhost:3306/nc_lab_2017",
+                    "root",
+                    "");
         }
-        return connection;
+
+        return connectionPool;
     }
 
-    public static Collection<Employee> getEmployees() {
+    public static Collection<Employee> getEmployees(Connection conn) {
         List<Employee> list = new ArrayList<>();
         String sql = "select * from employees";
         PreparedStatement pstm = null;
         try {
-            pstm = getConnection().prepareStatement(sql);
+            pstm = conn.prepareStatement(sql);
             ResultSet rs = pstm.executeQuery();
 
             while (rs.next()) {
@@ -56,6 +56,8 @@ public class JDBCUtils {
 
                 list.add(employee);
             }
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,12 +66,12 @@ public class JDBCUtils {
         return list;
     }
 
-    public static void insertEmployee(Employee employee) {
+    public static void insertEmployee(Connection conn, Employee employee) {
         String sql = "insert into employees(name,position,office,age,startDate,salary) values (?,?,?,?,?,?)";
 
         PreparedStatement pstm = null;
         try {
-            pstm = getConnection().prepareStatement(sql);
+            pstm = conn.prepareStatement(sql);
             pstm.setString(1, employee.getName());
             pstm.setString(2, employee.getPosition());
             pstm.setString(3, employee.getOffice());
