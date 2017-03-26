@@ -2,6 +2,8 @@ package dao;
 
 import model.Employee;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by dzna0914 on 3/24/2017.
@@ -19,14 +22,36 @@ public class JDBCUtils {
 
     public static JDBCConnectionPool getConnectionPool() {
         if (connectionPool == null) {
+            Properties props = readProperties("jdbc.properties");
             connectionPool = new JDBCConnectionPool(
-                    "com.mysql.jdbc.Driver",
-                    "jdbc:mysql://localhost:3306/nc_lab_2017",
-                    "root",
-                    "");
+                    props.getProperty("jdbc.Driver"),
+                    props.getProperty("jdbc.url"),
+                    props.getProperty("jdbc.user"),
+                    props.getProperty("jdbc.password")
+            );
         }
 
         return connectionPool;
+    }
+
+    private static Properties readProperties(String fileResourceName) {
+        Properties prop = new Properties();
+        InputStream input = null;
+        try {
+            input = JDBCUtils.class.getClassLoader().getResourceAsStream(fileResourceName);
+            prop.load(input);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return prop;
     }
 
     public static Collection<Employee> getEmployees(Connection conn) {

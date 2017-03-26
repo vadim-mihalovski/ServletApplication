@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
+import java.util.Properties;
 
 @WebServlet(urlPatterns = "/employees", loadOnStartup = 1)
 public class EmployeesServlet extends HttpServlet {
