@@ -22,15 +22,32 @@
             <version>1.2</version>
         </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <build.profile.id>dev</build.profile.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <build.profile.id>prod</build.profile.id>
+            </properties>
+        </profile>
+    </profiles>
     <build>
-        <finalName>${project.name}</finalName>
+        <finalName>${project.name}-${build.profile.id}</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
             <resource>
-                <directory>src/resources</directory>
-                <includes>
-                    <include>**/*.properties</include>
-                </includes>
+                <directory>src/resources/${build.profile.id}</directory>
+                <!--<includes>-->
+                    <!--<include>**/*.properties</include>-->
+                <!--</includes>-->
             </resource>
         </resources>
         <plugins>
@@ -57,7 +74,6 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-
                     <url>http://localhost:8080/manager/text</url>
                     <server>TomcatServer</server>
                     <username>admin</username>
