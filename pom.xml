@@ -4,12 +4,13 @@
     <groupId>com.netcracker.students.examples</groupId>
     <artifactId>employee-example</artifactId>
     <version>2</version>
-    <packaging>war</packaging>
+    <packaging>pom</packaging>
     <name>nc-lab-2017</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -40,26 +41,9 @@
         </profile>
     </profiles>
     <build>
-        <finalName>${project.name}-${build.profile.id}</finalName>
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <resources>
-            <resource>
-                <directory>src/resources/${build.profile.id}</directory>
-                <!--<includes>-->
-                    <!--<include>**/*.properties</include>-->
-                <!--</includes>-->
-            </resource>
-        </resources>
+        <sourceDirectory>model/main/java</sourceDirectory>
+
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -69,17 +53,12 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <url>http://localhost:8080/manager/text</url>
-                    <server>TomcatServer</server>
-                    <username>admin</username>
-                    <password>password</password>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
+
+    <modules>
+        <module>model</module>
+        <module>dao</module>
+        <module>application</module>
+    </modules>
 </project>
