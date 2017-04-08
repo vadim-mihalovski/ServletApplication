@@ -28,10 +28,10 @@ public class HibernateServlet extends HttpServlet {
 //        deleteQuery.from(Employee.class);
 //        session.createQuery(deleteQuery).executeUpdate();
 
-        for (int i = 0; i < 20; i++) {
-            Employee employee = new Employee("Name #" + i, "Position #" + i, "Office #" + i, "Age #" + i, "Start Date #" + i, "Salary #" + i);
-            session.save(employee);
-        }
+//        for (int i = 0; i < 20; i++) {
+//            Employee employee = new Employee("Name #" + i, "Position #" + i, "Office #" + i, "Age #" + i, "Start Date #" + i, "Salary #" + i);
+//            session.save(employee);
+//        }
 
         CriteriaQuery<Employee> query = builder.createQuery(Employee.class);
         Root<Employee> employeeRoot = query.from(Employee.class);
