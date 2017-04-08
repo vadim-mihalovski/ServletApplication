@@ -4,15 +4,14 @@ import dao.HibernateSessionFactory;
 import model.Employee;
 import org.hibernate.Session;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Locale;
 
 @WebServlet(urlPatterns = "/hibernate", loadOnStartup = 1)
 public class HibernateServlet extends HttpServlet {
@@ -47,6 +46,27 @@ public class HibernateServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        super.doPost(request, response);
+
+        String name = request.getParameter("key");
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        session.beginTransaction();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaUpdate criteriaUpdate = builder.createCriteriaUpdate(Employee.class);
+        Root<Employee> root = criteriaUpdate.from(Employee.class);
+        Predicate condition = builder.equal(root.get("name"),name);
+        criteriaUpdate.where(condition);
+        criteriaUpdate.set(root.get("salary"),"100");
+
+        int affected = session.createQuery(criteriaUpdate).executeUpdate();
+        session.getTransaction().commit();
+        session.close();
+        if (affected > 0) {
+            response.getWriter().append("100");
+        } else {
+            response.sendError(500);
+        }
+
+        response.getWriter().close();
+// super.doPost(request, response);
     }
 }

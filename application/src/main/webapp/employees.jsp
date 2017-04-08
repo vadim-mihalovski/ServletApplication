@@ -15,6 +15,7 @@
         <th>Age</th>
         <th>Start date</th>
         <th>Salary</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tfoot>
@@ -25,6 +26,7 @@
         <th>Age</th>
         <th>Start date</th>
         <th>Salary</th>
+        <th>Actions</th>
     </tr>
     </tfoot>
     <tbody>
@@ -36,6 +38,7 @@
             <td>${employee.age}</td>
             <td>${employee.startDate}</td>
             <td>${employee.salary}</td>
+            <td><button class="js-action-reset-salary" data-employee-key="${employee.name}">Reset Salary</button></td>
         </tr>
     </c:forEach>
     </tbody>
