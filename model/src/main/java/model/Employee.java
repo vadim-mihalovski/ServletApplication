@@ -1,7 +1,12 @@
 package model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "employees")
 public class Employee {
 
+    @Id
     private String name;
     private String position;
     private String office;
