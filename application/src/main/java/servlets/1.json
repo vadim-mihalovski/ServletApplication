@@ -1,0 +1,22 @@
+{
+  "name": "Name #0",
+  "position": "Manager",
+  "office": "Office #0",
+  "age": "Age #0",
+  "startDate": "Start Date #0",
+  "salary": "100",
+  "accounts": [
+    {
+      "account": {
+        "accountId": 56456456564564,
+        "currency": "BYN"
+      }
+    },
+    {
+      "account": {
+        "accountId": 5645654589089804,
+        "currency": "USD"
+      }
+    }
+  ]
+}

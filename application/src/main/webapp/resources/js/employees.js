@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#employees').DataTable();
+
 
     $('.js-action-reset-salary').on('click', function () {
         var self = $(this);
@@ -8,8 +8,15 @@ $(document).ready(function () {
             method: 'post',
             data: {key: keyValue},
             success: function (result) {
-                self.closest('td').prev().text(result);
+                var newData = JSON.parse(result);
+                Object.keys(newData).forEach(function (key) {
+                    var value = newData[key];
+                    // jquery selectors
+                    self.closest('tr').children('td[data-name=' + key + ']').text(value);
+                });
             }
         });
     });
+
+    $('#employees').DataTable();
 });
