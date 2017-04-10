@@ -15,6 +15,7 @@
         <th>Age</th>
         <th>Start date</th>
         <th>Salary</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tfoot>
@@ -25,17 +26,19 @@
         <th>Age</th>
         <th>Start date</th>
         <th>Salary</th>
+        <th>Actions</th>
     </tr>
     </tfoot>
     <tbody>
     <c:forEach items="${employees}" var="employee">
         <tr>
-            <td>${employee.name}</td>
-            <td>${employee.position}</td>
-            <td>${employee.office}</td>
-            <td>${employee.age}</td>
-            <td>${employee.startDate}</td>
-            <td>${employee.salary}</td>
+            <td data-name="name">${employee.name}</td>
+            <td data-name="position">${employee.position}</td>
+            <td data-name="office">${employee.office}</td>
+            <td data-name="age">${employee.age}</td>
+            <td data-name="startDate">${employee.startDate}</td>
+            <td data-name="salary">${employee.salary}</td>
+            <td><button class="js-action-reset-salary" data-employee-key="${employee.name}">Reset Salary</button></td>
         </tr>
     </c:forEach>
     </tbody>
